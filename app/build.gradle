@@ -1,0 +1,49 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+	namespace 'es.upm.miw.bantumi'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "es.upm.miw.bantumi"
+        minSdk 23
+        targetSdk 35
+        versionCode 1
+        versionName '1.3.0'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation libs.appcompat
+	
+	implementation libs.material
+
+    implementation libs.constraintLayout
+
+    // ViewModel
+    implementation libs.androidx.lifecycle.viewmodel
+
+    // LiveData
+    implementation libs.androidx.lifecycle.livedata
+
+    implementation libs.androidx.lifecycle.livedata.core
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}

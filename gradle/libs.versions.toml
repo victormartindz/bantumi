@@ -1,0 +1,17 @@
+[versions]
+agpVersion = '8.6.1'
+appCompatVersion = '1.7.0'
+materialVersion = '1.12.0'
+constraintLayoutVersion = '2.1.4'
+lifecycleVersion = '2.8.6'
+
+[libraries]
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appCompatVersion" }
+material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
+constraintLayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintLayoutVersion" }
+androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycleVersion" }
+androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata", version.ref = "lifecycleVersion" }
+androidx-lifecycle-livedata-core = { group = "androidx.lifecycle", name = "lifecycle-livedata-core", version.ref = "lifecycleVersion" }
+
+[plugins]
+android-application = { id = 'com.android.application', version.ref = 'agpVersion' }
