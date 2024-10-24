@@ -18,6 +18,21 @@
     <string name="txtOpcionRecuperar">Recuperar Partida</string>
     <string name="txtOpcionMejoresResultados">Mejores Resultados</string>
 
+    <!-- Reiniciar partida -->
+    <string name="restartHeader">¿Está seguro de que quiere reiniciar?</string>
+    <string name="restartMessage">Se perderá todo el progreso no guardado</string>
+    <string name="restartDone">¡Partida reiniciada!</string>
+
+    <!-- Guardar Partida -->
+    <string name="saveDone">Partida guardada con éxito</string>
+    <string name="saveError">Ocurrió un error al guardar la partida</string>
+
+    <!-- Recuperar partida -->
+    <string name="resumeHeader">¿Recuperar partida anterior?</string>
+    <string name="resumeMessage">Se perdera el progreso de la partida actual</string>
+    <string name="resumeDone">Partida recuperada con éxito</string>
+    <string name="resumeError">Ocurrió un error al recuperar la partida</string>
+
     <!-- Acerca de -->
     <string name="aboutText">Acerca de</string>
     <string name="aboutTitle">¿Cómo se juega?</string>

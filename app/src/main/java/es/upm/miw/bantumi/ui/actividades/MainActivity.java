@@ -18,6 +18,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Locale;
 
 import es.upm.miw.bantumi.ui.fragmentos.FinalAlertDialog;
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public JuegoBantumi juegoBantumi;
     private BantumiViewModel bantumiVM;
     int numInicialSemillas;
+    private static final String FILE_NAME = "bantumi_state.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +144,34 @@ public class MainActivity extends AppCompatActivity {
                         .show();
                 return true;
 
+            case R.id.opcReiniciarPartida:
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.restartHeader)
+                        .setMessage(R.string.restartMessage)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                            juegoBantumi.inicializar(JuegoBantumi.Turno.turnoJ1);
+                            Snackbar.make(
+                                    findViewById(android.R.id.content),
+                                    getString(R.string.restartDone),
+                                    Snackbar.LENGTH_LONG
+                            ).show();
+                        })
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show();
+                return true;
+            case R.id.opcGuardarPartida:
+                guardarPartida();
+                return true;
+
             // @TODO!!! resto opciones
+            case R.id.opcRecuperarPartida:
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.resumeHeader)
+                        .setMessage(R.string.resumeMessage)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> recuperarPartida())
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show();
+                return true;
 
             default:
                 Snackbar.make(
@@ -176,6 +208,40 @@ public class MainActivity extends AppCompatActivity {
             finJuego();
         }
     }
+
+    /**
+     * Gudardar partida
+     */
+    private void guardarPartida() {
+        String estadoJuego = juegoBantumi.serializa();
+        try (FileOutputStream fos = openFileOutput(FILE_NAME, MODE_PRIVATE)) {
+            fos.write(estadoJuego.getBytes());
+            Snackbar.make(findViewById(android.R.id.content), getString(R.string.saveDone), Snackbar.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Error al guardar la partida", e);
+            Snackbar.make(findViewById(android.R.id.content), getString(R.string.saveError), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Recuperar partida
+     */
+    private void recuperarPartida() {
+        try (FileInputStream fis = openFileInput(FILE_NAME)) {
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            String estadoJuego = new String(buffer);
+            juegoBantumi.deserializa(estadoJuego);
+            Snackbar.make(findViewById(android.R.id.content), getString(R.string.resumeDone), Snackbar.LENGTH_LONG).show();
+        } catch (FileNotFoundException e) {
+            Log.e(LOG_TAG, "No se encontró el archivo de partida guardada", e);
+            Snackbar.make(findViewById(android.R.id.content), getString(R.string.resumeError), Snackbar.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Error al recuperar la partida", e);
+            Snackbar.make(findViewById(android.R.id.content), getString(R.string.resumeError), Snackbar.LENGTH_LONG).show();
+        }
+    }
+
 
     /**
      * El juego ha terminado. Volver a jugar?
